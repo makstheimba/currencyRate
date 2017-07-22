@@ -1,0 +1,8 @@
+{
+	"moduleFileExtensions": ["js"],
+	"moduleDirectories": ["node_modules", "<rootDir>/src/"],
+	"testPathIgnorePatterns": ["/node_modules/"],
+	"moduleNameMapper": {
+		"\\.(css|scss)": "<rootDir>/__mocks__/stylesMock.js"
+	}
+}
