@@ -1,0 +1,19 @@
+.container {
+  max-width: 250px;
+  &Row {
+    display: flex;
+    padding: 5px 0;
+    &Item {
+      flex: 1;
+      &__green {
+        color: lightgreen;
+      }
+      &__red {
+        color: lightcoral;
+      }
+    }
+    &Header {
+      border-bottom: 1px solid lightgray;
+    }
+  }
+}

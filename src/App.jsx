@@ -1,9 +1,14 @@
 import React from 'react';
+import CurrencyHistoryContainer from 'containers/CurrencyHistoryContainer';
+import CurrencyHighChartContainer from 'containers/CurrencyHighChartContainer';
 
-require('style.scss');
+require('App.scss');
 
 const App = () => (
-  <div><h1>Hello World</h1></div>
+  <div>
+    <CurrencyHistoryContainer />
+    <CurrencyHighChartContainer />
+  </div>
 );
 
 export default App;

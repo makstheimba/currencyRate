@@ -29,7 +29,17 @@ module.exports = {
       {
         test: /\.scss$/,
         exclude: [/node_modules/, /typings/],
-        loaders: ['style-loader', 'css-loader', 'sass-loader'],
+        loaders: [
+          { loader: 'style-loader' },
+          {
+            loader: 'css-loader',
+            query: {
+              modules: true,
+              localIdentName: '[name]__[local]___[hash:base64:5]',
+            },
+          },
+          { loader: 'sass-loader' },
+        ],
       },
       {
         test: /\.css$/,
