@@ -5,6 +5,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import rootReducer from 'reducers/root';
 import AppSagas from 'actions/AppSagas';
+import 'react-datepicker-cssmodules.css';
 import createSagaMiddleware from 'redux-saga';
 import { createStore, applyMiddleware } from 'redux';
 

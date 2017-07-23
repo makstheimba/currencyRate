@@ -1,10 +1,14 @@
 import moment from 'moment';
+import { reverse } from 'lodash';
 import classnames from 'classnames';
+import DatePicker from 'react-datepicker';
 import React, { PropTypes } from 'react';
 import styles from 'components/CurrencyHistory.scss';
 
 export default class CurrencyHistory extends React.Component {
   static propTypes = {
+    date: PropTypes.string.isRequired, // DD.MM.YYYY
+    setDate: PropTypes.func.isRequired,
     history: PropTypes.arrayOf(PropTypes.shape({
       date: PropTypes.string.isRequired, // DD.MM.YYYY
       diff: PropTypes.string.isRequired,
@@ -13,18 +17,19 @@ export default class CurrencyHistory extends React.Component {
     })).isRequired,
   }
 
+  handleDateChange = date => this.props.setDate(date.format('DD.MM.YYYY'));
+
   render() {
-    const { history } = this.props;
+    const { history, date } = this.props;
 
     return (
       <div className={styles.container}>
         <div className={classnames(styles.containerRow, styles.containerRowHeader)}>
           <span className={styles.containerRowItem}>Дата</span>
           <span className={styles.containerRowItem}>Курс ЦБ РФ</span>
-          <span className={styles.containerRowItem} />
         </div>
         {
-          history.map(entry => (
+          reverse(history).map(entry => (
             <div key={entry.date} className={styles.containerRow}>
               <span className={styles.containerRowItem}>
                 {moment(entry.date, 'DD.MM.YYYY').format('DD.MM')}</span>
@@ -42,6 +47,13 @@ export default class CurrencyHistory extends React.Component {
             </div>
           ))
         }
+        <DatePicker
+          locale="ru"
+          placeholderText="Выбрать дату"
+          onChange={this.handleDateChange}
+          maxDate={moment()}
+          selected={moment(date, 'DD.MM.YYYY')}
+        />
       </div>
     );
   }

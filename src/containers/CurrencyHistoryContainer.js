@@ -1,11 +1,17 @@
 import { connect } from 'react-redux';
-// import { bindActionCreators } from 'redux';
-import { getCurrencyHistory } from 'selectors/AppSelectors';
+import { bindActionCreators } from 'redux';
+import { setDate } from 'actions/AppActions';
 import CurrencyHistory from 'components/CurrencyHistory';
+import { getWeeklyCurrencyRate, getCurrencyHistory, getDate } from 'selectors/AppSelectors';
 
 const mapStateToProps = state => ({
-  history: getCurrencyHistory(state).slice(-7), // last week, bad code, change later
+  history: getWeeklyCurrencyRate(getCurrencyHistory(state), getDate(state)),
+  date: getDate(state),
 });
 
-export default connect(mapStateToProps)(CurrencyHistory);
+const mapDispatchToProps = dispatch => bindActionCreators({
+  setDate,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(CurrencyHistory);
 

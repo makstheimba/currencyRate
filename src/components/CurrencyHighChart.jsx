@@ -1,5 +1,7 @@
+import moment from 'moment';
 import React, { PropTypes } from 'react';
-import HighCharts from 'react-highcharts';
+import HighStock from 'react-highcharts/ReactHighstock';
+import styles from 'components/CurrencyHighCharts.scss';
 
 export default class CurrencyHighChart extends React.Component {
   static propTypes = {
@@ -11,33 +13,23 @@ export default class CurrencyHighChart extends React.Component {
     })).isRequired,
   }
   render() {
+    const { history } = this.props;
     const config = {
+      rangeSelector: {
+        selected: 1,
+      },
       chart: {
-        type: 'bar',
-      },
-      title: {
-        text: 'Fruit Consumption',
-      },
-      xAxis: {
-        categories: ['Apples', 'Bananas', 'Oranges'],
-      },
-      yAxis: {
-        title: {
-          text: 'Fruit eaten',
-        },
+        height: 250,
       },
       series: [{
-        name: 'Jane',
-        data: [1, 0, 4],
-      }, {
-        name: 'John',
-        data: [5, 7, 3],
+        name: 'currency', // change later
+        data: history.map(entry => [moment(entry.date, 'DD.MM.YYYY').unix() * 1000, entry.value]),
       }],
     };
 
     return (
-      <div className="container">
-        <HighCharts config={config} />
+      <div className={styles.container}>
+        <HighStock config={config} />
       </div>
     );
   }

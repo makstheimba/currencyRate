@@ -29,8 +29,8 @@ function* fetchCurrencyHistory() {
 /*  const currencyCode = yield select(getMainCurrency);
   const date = yield select(getDate);
   const url = 'https://crossorigin.me/https://www.cbr.ru/scripts/XML_dynamic.asp?' +
-    `date_req1=${moment(date, 'DD/MM/YYYY').subtract(1, 'y').format('DD/MM/YYYY')}&` +
-    `date_req2=${date}&` +
+    `date_req1=${moment(date, 'DD.MM.YYYY').subtract(1, 'y').format('DD/MM/YYYY')}&` +
+    `date_req2=${moment(date, 'DD.MM.YYYY').format('DD/MM/YYYY')}&` +
     `VAL_NM_RQ=${currencyCode}`
   ;
   const result = yield call(axios.get, url);

@@ -5,7 +5,7 @@ const initialState = {
   codes: [],
   history: [],
   mainCurrency: 'R01235',
-  date: moment().format('DD/MM/YYYY'),
+  date: moment().format('DD.MM.YYYY'),
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -19,6 +19,11 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         history: action.currencyHistory,
+      };
+    case actions.SET_DATE:
+      return {
+        ...state,
+        date: action.date,
       };
     default:
       return state;
