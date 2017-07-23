@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-// import { bindActionCreators } from 'redux';
 import { getCurrencyHistory } from 'selectors/AppSelectors';
 import CurrencyHighChart from 'components/CurrencyHighChart';
 

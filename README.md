@@ -1,13 +1,7 @@
-# React redux webpack2 boilerplate
+# Exchange rates graph
 
-## Includes
-  - React
-  - Redux
-  - Webpack2
-  - SCSS
-  - Mocha
-  - Chai
-  - Airbnb eslint
+Build with React, Redux, redux-saga, webpack.
 
 Run `npm install` to install all dependencies.
-`npm start` to start webpack dev server on localhost:8000.
+`npm start` to build a bundle.
+`npm run dev` to develop on localhost:8000.

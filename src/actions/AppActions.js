@@ -25,3 +25,11 @@ export const setDate = date => ({
   type: actions.SET_DATE,
   date,
 });
+
+export const requestStart = () => ({
+  type: actions.REQUEST_START,
+});
+
+export const requestEnd = () => ({
+  type: actions.REQUEST_END,
+});

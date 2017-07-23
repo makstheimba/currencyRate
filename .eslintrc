@@ -10,6 +10,6 @@
   },
   "rules": {
     "func-names": ["error", "never"],
-    "react/prefer-stateless-function": ["never"]
+    "react/prefer-stateless-function": 0
   }
 }

@@ -6,6 +6,7 @@ const initialState = {
   codes: [],
   history: [],
   mainCurrency: {},
+  isFetching: true,
   date: moment().format('DD.MM.YYYY'),
 };
 
@@ -26,6 +27,16 @@ export default function AppReducer(state = initialState, action) {
         ...state,
         date: action.date,
       };
+    case actions.REQUEST_START:
+      return {
+        ...state,
+        isFetching: true,
+      }
+    case actions.REQUEST_END:
+      return {
+        ...state,
+        isFetching: false,
+      }
     case actions.SET_MAIN_CURRENCY: {
       const currencyInfo = find(state.codes, { $: { ID: action.ID } });
       return {
