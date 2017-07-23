@@ -1,16 +1,12 @@
-* {
-    box-sizing: border-box;
-}
-
 .container {
-    display: flex;
-    justify-content: center;
+    margin: 0 auto;
+    width: 1000px;
     &History {
         background-color: #ecf0f1;
         display: flex;
         flex: 1;
         justify-content: space-between;
         padding: 10px;
-        max-width: 1000px;
+        width: 1000px;
     }
 }

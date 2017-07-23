@@ -1,38 +1,21 @@
 import axios from 'axios';
 import moment from 'moment';
+import { last } from 'lodash';
 import { parseString } from 'xml2js';
-import { normalizeCurrencyRecord } from 'selectors/AppHelpers';
-import { getMainCurrency, getDate } from 'selectors/AppSelectors';
-import { setCurrencyCodes, setCurrencyHistory } from 'actions/AppActions';
-import { CHANGE_SHOW_PERIOD } from 'constants/AppConstants';
-import { all, put, select, call, takeLatest, actionChannel } from 'redux-saga/effects';
+import { all, put, call, takeLatest } from 'redux-saga/effects';
+import { FETCH_MAIN_CURRENCY } from 'constants/AppConstants';
+import { setCurrencyCodes, setCurrencyHistory, setDate, setMainCurrency } from 'actions/AppActions';
+import { normalizeCurrencyRecord, makeHistoryRequestUrl } from 'selectors/AppHelpers';
 
 const getParsedData = data => new Promise((resolve) => {
   parseString(data, { explicitArray: false }, (err, res) => { resolve(res); });
 });
 
-function* fetchCurrencyCatalog() {
-/*
-  const result = yield call(axios.get, 'https://crossorigin.me/https://www.cbr.ru/scripts/XML_val.asp?d=0');
-  const getParsedData = () => new Promise((resolve) => {
-    parseString(result.data, { explicitArray: false }, (err, res) => { resolve(res); });
-  });
-  const parsedData = yield getParsedData();
 
-  yield put(setCurrencyCodes(parsedData.Valuta.Item));
-*/
+function* fetchMainCurrency({ currencyCode }) {
+  yield put(setDate(moment().format('DD.MM.YYYY')));
 
-  yield put(setCurrencyCodes(JSON.parse(localStorage.getItem('refTable')).Valuta.Item));
-}
-
-function* fetchCurrencyHistory() {
-/*  const currencyCode = yield select(getMainCurrency);
-  const date = yield select(getDate);
-  const url = 'https://crossorigin.me/https://www.cbr.ru/scripts/XML_dynamic.asp?' +
-    `date_req1=${moment(date, 'DD.MM.YYYY').subtract(1, 'y').format('DD/MM/YYYY')}&` +
-    `date_req2=${moment(date, 'DD.MM.YYYY').format('DD/MM/YYYY')}&` +
-    `VAL_NM_RQ=${currencyCode}`
-  ;
+  const url = makeHistoryRequestUrl(moment().subtract(1, 'y'), moment(), currencyCode);
   const result = yield call(axios.get, url);
   const parsedData = yield getParsedData(result.data);
   const normalizedData = parsedData.ValCurs.Record
@@ -44,20 +27,31 @@ function* fetchCurrencyHistory() {
         : parseFloat(array[index].value - array[index - 1].value).toFixed(4),
     }));
 
-  yield put(setCurrencyCodes(normalizedData));*/
+  yield put(setMainCurrency({ ID: currencyCode, value: last(normalizedData).value }));
+  yield put(setCurrencyHistory(normalizedData));
 
-  yield put(setCurrencyHistory(JSON.parse(localStorage.getItem('usd'))));
+  // yield put(setCurrencyHistory(JSON.parse(localStorage.getItem('usd'))));
 }
 
-/* function* watchCurrencyParams() {
-  yield takeLatest(CHANGE_SHOW_PERIOD);
-}*/
+function* initializeApp() {
+  const currencyCodesXML = yield call(axios.get, 'https://crossorigin.me/https://www.cbr.ru/scripts/XML_val.asp?d=0');
+  const parsedCurrencyCodes = yield getParsedData(currencyCodesXML.data);
+  const currencyCodes = parsedCurrencyCodes.Valuta.Item;
+
+  yield put(setCurrencyCodes(currencyCodes));
+  yield fetchMainCurrency({ currencyCode: currencyCodes[1].$.ID });
+
+  // yield put(setCurrencyCodes(JSON.parse(localStorage.getItem('refTable')).Valuta.Item));
+}
+
+function* watchMainCurrencyFetch() {
+  yield takeLatest(FETCH_MAIN_CURRENCY, fetchMainCurrency);
+}
 
 export default function* appSagas() {
   yield all([
-    fetchCurrencyCatalog(),
-    fetchCurrencyHistory(),
-    // watchCurrencyParams(),
+    initializeApp(),
+    watchMainCurrencyFetch(),
   ]);
 }
 

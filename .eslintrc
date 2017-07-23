@@ -9,6 +9,7 @@
     "import/resolver": "webpack"
   },
   "rules": {
-    "func-names": ["error", "never"]
+    "func-names": ["error", "never"],
+    "react/prefer-stateless-function": ["never"]
   }
 }

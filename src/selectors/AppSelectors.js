@@ -4,6 +4,7 @@ import moment from 'moment';
 export const getMainCurrency = state => state.mainCurrency;
 export const getDate = state => state.date;
 export const getCurrencyHistory = state => state.history;
+export const getCurrencyCodes = state => state.codes;
 
 export const getWeeklyCurrencyRate = (history, date) => {
   const dateRecordIndex = Math.min(sortedIndexBy(history, { date }, entry => (

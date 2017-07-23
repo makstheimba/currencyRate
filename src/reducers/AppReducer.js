@@ -1,14 +1,15 @@
 import moment from 'moment';
+import { find } from 'lodash';
 import * as actions from 'constants/AppConstants';
 
 const initialState = {
   codes: [],
   history: [],
-  mainCurrency: 'R01235',
+  mainCurrency: {},
   date: moment().format('DD.MM.YYYY'),
 };
 
-export default function rootReducer(state = initialState, action) {
+export default function AppReducer(state = initialState, action) {
   switch (action.type) {
     case actions.SET_CURRENCY_CODES:
       return {
@@ -25,6 +26,18 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         date: action.date,
       };
+    case actions.SET_MAIN_CURRENCY: {
+      const currencyInfo = find(state.codes, { $: { ID: action.ID } });
+      return {
+        ...state,
+        mainCurrency: {
+          name: currencyInfo.Name,
+          nominal: parseInt(currencyInfo.Nominal, 10),
+          value: action.value,
+          ID: action.ID,
+        },
+      };
+    }
     default:
       return state;
   }

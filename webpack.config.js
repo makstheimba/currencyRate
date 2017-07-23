@@ -18,7 +18,7 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        exclude: [/node_modules/, /typings/],
+        exclude: [/node_modules/],
         loaders: [{
           loader: 'babel-loader',
           query: {
@@ -27,8 +27,16 @@ module.exports = {
         }],
       },
       {
+        test: /\.global\.css$/,
+        use: [{
+          loader: 'style-loader',
+        }, {
+          loader: 'css-loader',
+        }],
+      },
+      {
         test: /\.scss$/,
-        exclude: [/node_modules/, /typings/],
+        exclude: [/node_modules/],
         loaders: [
           { loader: 'style-loader' },
           {
@@ -42,8 +50,8 @@ module.exports = {
         ],
       },
       {
-        test: /\.css$/,
-        exclude: [/node_modules/, /typings/],
+        test: /^((?!\.global).)*\.css$/,
+        exclude: [/node_modules/],
         loaders: [
           { loader: 'style-loader' },
           {

@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  width: 500px;
+  background-color: #34495e;
+  color: white;  
+  &Item {
+    flex: 1;
+    &Header {
+      border-bottom: 1px solid darkgray;
+    }
+    &Subtitle {
+      font-size: 12px;
+      text-align: center;
+    }
+    &Content {
+      height: 70px;
+      font-size: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+.selectWrapper {
+  width: 80%;
+}
