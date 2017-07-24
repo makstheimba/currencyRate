@@ -1,9 +1,15 @@
 import moment from 'moment';
 import { find } from 'lodash';
-import * as actions from 'constants/AppConstants';
+import * as constants from 'constants/AppConstants';
 
 const initialState = {
-  codes: [],
+  codes: [{
+    $: {
+      ID: constants.russianCurrencyCode,
+    },
+    Name: 'Российский рубль',
+    Nominal: 1,
+  }],
   history: [],
   mainCurrency: {
     ID: '',
@@ -23,32 +29,32 @@ const initialState = {
 
 export default function AppReducer(state = initialState, action) {
   switch (action.type) {
-    case actions.SET_CURRENCY_CODES:
+    case constants.SET_CURRENCY_CODES:
       return {
         ...state,
-        codes: action.currencyCodes,
+        codes: [...state.codes, ...action.currencyCodes],
       };
-    case actions.SET_CURRENCY_HISTORY:
+    case constants.SET_CURRENCY_HISTORY:
       return {
         ...state,
         history: action.currencyHistory,
       };
-    case actions.SET_DATE:
+    case constants.SET_DATE:
       return {
         ...state,
         date: action.date,
       };
-    case actions.REQUEST_START:
+    case constants.REQUEST_START:
       return {
         ...state,
         isFetching: true,
       };
-    case actions.REQUEST_END:
+    case constants.REQUEST_END:
       return {
         ...state,
         isFetching: false,
       };
-    case actions.SET_CURRENCY: {
+    case constants.SET_CURRENCY: {
       const currencyInfo = find(state.codes, { $: { ID: action.ID } });
       return {
         ...state,

@@ -8,6 +8,8 @@ export const FETCH_CURRENCY = 'FETCH_CURRENCY';
 export const REQUEST_START = 'REQUEST_START';
 export const REQUEST_END = 'REQUEST_END';
 
+export const russianCurrencyCode = 'ru';
+
 export const currencyProps = PropTypes.shape({
   ID: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
