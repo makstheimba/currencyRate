@@ -49,8 +49,8 @@ export default class CurrencyConverter extends React.PureComponent {
     const { mainRate, secondaryRate } = this.state;
 
     this.setState({
-      mainValue: value,
-      secondaryValue: getExchangeValue(value, mainRate, secondaryRate),
+      mainValue: Math.abs(value),
+      secondaryValue: getExchangeValue(Math.abs(value), mainRate, secondaryRate),
     });
   }
 
@@ -58,8 +58,8 @@ export default class CurrencyConverter extends React.PureComponent {
     const { mainRate, secondaryRate } = this.state;
 
     this.setState({
-      secondaryValue: value,
-      mainValue: getExchangeValue(value, secondaryRate, mainRate),
+      secondaryValue: Math.abs(value),
+      mainValue: getExchangeValue(Math.abs(value), secondaryRate, mainRate),
     });
   }
 
