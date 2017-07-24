@@ -3,16 +3,23 @@
     width: 1000px;
     &Showcase {
         display: flex;
+        flex-wrap: wrap;
     }
     &History {
         background-color: #ecf0f1;
         display: flex;
+        flex-wrap: wrap;
         flex: 1;
         justify-content: space-between;
         padding: 10px;
-        width: 1000px;
     }
 }
 .curtain {
     filter: blur(4px);
+}
+
+@media(max-width: 1000px) {
+    .container {
+        width: 100%;
+    }
 }

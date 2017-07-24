@@ -27,7 +27,8 @@ export default class CurrencyHistory extends React.PureComponent {
       <div className={styles.container}>
         <div className={classnames(styles.containerRow, styles.containerRowHeader)}>
           <span className={styles.containerRowItem}>Дата</span>
-          <span className={styles.containerRowItem}>Курс ЦБ РФ</span>
+          <span className={styles.containerRowItem}>Курс ЦБ</span>
+          <span>Динамика</span>
         </div>
         {
           reverse(history).map(entry => (
