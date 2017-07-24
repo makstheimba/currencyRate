@@ -17,9 +17,10 @@ export const setCurrency = ({ ID, value, isMain }) => ({
   isMain,
 });
 
-export const fetchMainCurrency = currencyCode => ({
-  type: actions.FETCH_MAIN_CURRENCY,
+export const fetchCurrency = (currencyCode, isMain) => ({
+  type: actions.FETCH_CURRENCY,
   currencyCode,
+  isMain,
 });
 
 export const setDate = date => ({

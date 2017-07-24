@@ -1,0 +1,24 @@
+.container {
+	width: 500px;
+	height: 140px;
+	padding: 0 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	background-color: #ecf0f1;
+	font-size: 18px;
+	&Row {
+		height: 40px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		&Label {
+			width: 65%;
+		}
+		&Input {
+			width: 30%;
+			height: 40px;
+			font-size: 18px;
+		}
+	}
+}

@@ -6,7 +6,7 @@ import React, { PropTypes } from 'react';
 import styles from 'components/CurrencyHistory.scss';
 import CustomDatePickerInput from 'components/CustomDatePickerInput';
 
-export default class CurrencyHistory extends React.Component {
+export default class CurrencyHistory extends React.PureComponent {
   static propTypes = {
     date: PropTypes.string.isRequired, // DD.MM.YYYY
     setDate: PropTypes.func.isRequired,

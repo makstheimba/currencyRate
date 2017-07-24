@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 import HighStock from 'react-highcharts/ReactHighstock';
 import styles from 'components/CurrencyHighCharts.scss';
 
-export default class CurrencyHighChart extends React.Component {
+export default class CurrencyHighChart extends React.PureComponent {
   static propTypes = {
     history: PropTypes.arrayOf(PropTypes.shape({
       date: PropTypes.string.isRequired, // DD.MM.YYYY

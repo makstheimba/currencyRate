@@ -2,6 +2,7 @@ import { sortedIndexBy } from 'lodash';
 import moment from 'moment';
 
 export const getMainCurrency = state => state.mainCurrency;
+export const getSecondaryCurrency = state => state.secondaryCurrency;
 export const getDate = state => state.date;
 export const getCurrencyHistory = state => state.history;
 export const getCurrencyCodes = state => state.codes;

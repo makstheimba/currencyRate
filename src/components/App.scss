@@ -1,6 +1,9 @@
 .container {
     margin: 0 auto;
     width: 1000px;
+    &Showcase {
+        display: flex;
+    }
     &History {
         background-color: #ecf0f1;
         display: flex;

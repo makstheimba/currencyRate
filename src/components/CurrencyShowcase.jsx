@@ -1,31 +1,16 @@
-import Select from 'react-select';
 import classnames from 'classnames';
-import React, { PropTypes } from 'react';
+import React from 'react';
 import styles from 'components/CurrencyShowcase.scss';
+import { currencyProps } from 'constants/AppConstants';
+import CurrencySelect from 'containers/CurrencySelect';
 
-const makeSelectOptions = codes => codes.map(code => ({ value: code.$.ID, label: code.Name }));
-
-export default class CurrencyShowcase extends React.Component {
+export default class CurrencyShowcase extends React.PureComponent {
   static propTypes = {
-    currency: PropTypes.shape({
-      ID: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      value: PropTypes.number.isRequired,
-      nominal: PropTypes.number.isRequired,
-    }).isRequired,
-    codes: PropTypes.arrayOf(PropTypes.shape({
-      $: PropTypes.shape({
-        ID: PropTypes.string.isRequired,
-      }).isRequired,
-      Name: PropTypes.string.isRequired,
-    })).isRequired,
-    fetchMainCurrency: PropTypes.func.isRequired,
+    currency: currencyProps.isRequired,
   }
 
-  handleSelectChange = currency => this.props.fetchMainCurrency(currency.value);
-
   render() {
-    const { currency, codes } = this.props;
+    const { currency } = this.props;
 
     return (
       <div className={styles.container}>
@@ -35,13 +20,7 @@ export default class CurrencyShowcase extends React.Component {
           </div>
           <div className={styles.containerItemContent}>
             <div className={styles.selectWrapper}>
-              <Select
-                name="currency"
-                clearable={false}
-                value={currency.ID}
-                options={makeSelectOptions(codes)}
-                onChange={this.handleSelectChange}
-              />
+              <CurrencySelect isMain />
             </div>
           </div>
         </div>

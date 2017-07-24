@@ -5,7 +5,18 @@ import * as actions from 'constants/AppConstants';
 const initialState = {
   codes: [],
   history: [],
-  mainCurrency: {},
+  mainCurrency: {
+    ID: '',
+    nominal: 1,
+    value: 1,
+    name: '',
+  },
+  secondaryCurrency: {
+    ID: '',
+    nominal: 1,
+    value: 1,
+    name: '',
+  },
   isFetching: true,
   date: moment().format('DD.MM.YYYY'),
 };
