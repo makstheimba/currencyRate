@@ -51,7 +51,9 @@ export default class CurrencyShowcase extends React.Component {
           </div>
           <div className={styles.containerItemContent}>
             <div>{currency.value}</div>
-            <span className={styles.containerItemSubtitle}>рублей за {currency.name}</span>
+            <span className={styles.containerItemSubtitle}>
+              рублей за {currency.nominal > 1 ? currency.nominal : ''} {currency.name}
+            </span>
           </div>
         </div>
       </div>

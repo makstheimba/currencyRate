@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import DatePicker from 'react-datepicker';
 import React, { PropTypes } from 'react';
 import styles from 'components/CurrencyHistory.scss';
+import CustomDatePickerInput from 'components/CustomDatePickerInput';
 
 export default class CurrencyHistory extends React.Component {
   static propTypes = {
@@ -49,10 +50,12 @@ export default class CurrencyHistory extends React.Component {
         }
         <DatePicker
           locale="ru"
+          maxDate={moment()}
           placeholderText="Выбрать дату"
           onChange={this.handleDateChange}
-          maxDate={moment()}
+          minDate={moment().subtract(1, 'y')}
           selected={moment(date, 'DD.MM.YYYY')}
+          customInput={<CustomDatePickerInput />}
         />
       </div>
     );
