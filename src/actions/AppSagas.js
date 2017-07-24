@@ -6,7 +6,7 @@ import { FETCH_MAIN_CURRENCY } from 'constants/AppConstants';
 import { all, put, call, takeLatest } from 'redux-saga/effects';
 import { normalizeCurrencyRecord, makeHistoryRequestUrl } from 'selectors/AppHelpers';
 import {
-    setCurrencyCodes, setCurrencyHistory, setDate, setMainCurrency, requestStart, requestEnd,
+    setCurrencyCodes, setCurrencyHistory, setDate, setCurrency, requestStart, requestEnd,
 } from 'actions/AppActions';
 
 const getParsedData = data => new Promise((resolve) => {
@@ -33,8 +33,31 @@ function* fetchMainCurrency({ currencyCode }) {
             : parseFloat(array[index].value - array[index - 1].value).toFixed(4),
         }));
 
-      yield put(setMainCurrency({ ID: currencyCode, value: last(normalizedData).value }));
+      yield put(setCurrency({ ID: currencyCode, value: last(normalizedData).value, isMain: true }));
       yield put(setCurrencyHistory(normalizedData));
+    }
+  } catch (err) {
+    console.log(err);
+    alert('Something went wrong, probably CORS :(');
+  }
+  yield put(requestEnd());
+}
+
+function* fetchSecondaryCurrency({ currencyCode }) {
+  yield put(requestStart());
+  try {
+    const url = makeHistoryRequestUrl(moment().subtract(1, 'w'), moment(), currencyCode);
+    const result = yield call(axios.get, url);
+    const parsedData = yield getParsedData(result.data);
+
+    if (!parsedData.ValCurs.Record) {
+      alert('Отсутствуют данные для выбранной валюты');
+    } else {
+      yield put(setCurrency({
+        isMain: false,
+        ID: currencyCode,
+        value: last(parsedData.ValCurs.Record.map(normalizeCurrencyRecord)).value,
+      }));
     }
   } catch (err) {
     console.log(err);
@@ -50,8 +73,12 @@ function* initializeApp() {
     const currencyCodes = parsedCurrencyCodes.Valuta.Item;
 
     yield put(setCurrencyCodes(currencyCodes));
-    yield fetchMainCurrency({ currencyCode: currencyCodes[1].$.ID });
+    yield all([
+      fetchMainCurrency({ currencyCode: currencyCodes[1].$.ID }),
+      fetchSecondaryCurrency({ currencyCode: currencyCodes[0].$.ID }),
+    ]);
   } catch (err) {
+    yield put(requestStart());
     console.log(err);
     alert('Something went wrong, probably CORS :(');
   }

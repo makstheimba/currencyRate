@@ -10,10 +10,11 @@ export const setCurrencyHistory = currencyHistory => ({
   currencyHistory,
 });
 
-export const setMainCurrency = ({ ID, value }) => ({
-  type: actions.SET_MAIN_CURRENCY,
+export const setCurrency = ({ ID, value, isMain }) => ({
+  type: actions.SET_CURRENCY,
   ID,
   value,
+  isMain,
 });
 
 export const fetchMainCurrency = currencyCode => ({

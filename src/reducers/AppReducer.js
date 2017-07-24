@@ -31,24 +31,24 @@ export default function AppReducer(state = initialState, action) {
       return {
         ...state,
         isFetching: true,
-      }
+      };
     case actions.REQUEST_END:
       return {
         ...state,
         isFetching: false,
-      }
-    case actions.SET_MAIN_CURRENCY: {
+      };
+    case actions.SET_CURRENCY: {
       const currencyInfo = find(state.codes, { $: { ID: action.ID } });
       return {
         ...state,
-        mainCurrency: {
+        [action.isMain ? 'mainCurrency' : 'secondaryCurrency']: {
           name: currencyInfo.Name,
           nominal: parseInt(currencyInfo.Nominal, 10),
           value: action.value,
           ID: action.ID,
         },
       };
-    }
+    };
     default:
       return state;
   }
