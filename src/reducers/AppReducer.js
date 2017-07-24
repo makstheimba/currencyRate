@@ -2,7 +2,7 @@ import moment from 'moment';
 import { find } from 'lodash';
 import * as constants from 'constants/AppConstants';
 
-const initialState = {
+export const initialState = {
   codes: [{
     $: {
       ID: constants.russianCurrencyCode,

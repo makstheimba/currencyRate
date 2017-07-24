@@ -17,7 +17,7 @@ describe('App selectors', () => {
     it('should return weekly currency rate prior to chosen date', () => {
       expect(getWeeklyCurrencyRate(history, '08.07.1994')).toEqual(history.slice(2, 9));
     });
-    it('should return all available days if cannot retrieve records for the whole week', () => {
+    it('should return all available days if could not retrieve records for the whole week', () => {
       expect(getWeeklyCurrencyRate(history, '03.07.1994')).toEqual(history.slice(0, 5));
     });
   });

@@ -9,18 +9,18 @@ import {
     setCurrencyCodes, setCurrencyHistory, setDate, setCurrency, requestStart, requestEnd,
 } from 'actions/AppActions';
 
-const getParsedData = data => new Promise((resolve) => {
+export const getParsedData = data => new Promise((resolve) => {
   parseString(data, { explicitArray: false }, (err, res) => { resolve(res); });
 });
 
-function* fetchMainCurrency({ currencyCode }, shouldEndRequest) {
+export function* fetchMainCurrency({ currencyCode }, shouldEndRequest) {
   yield put(requestStart());
   yield put(setDate(moment().format('DD.MM.YYYY')));
 
   try {
     const url = makeHistoryRequestUrl(moment().subtract(1, 'y'), moment(), currencyCode);
     const result = yield call(axios.get, url);
-    const parsedData = yield getParsedData(result.data);
+    const parsedData = yield call(getParsedData, result.data);
     if (!parsedData.ValCurs.Record) {
       alert('Отсутствуют данные для выбранной валюты');
     } else {
@@ -45,12 +45,12 @@ function* fetchMainCurrency({ currencyCode }, shouldEndRequest) {
   }
 }
 
-function* fetchSecondaryCurrency({ currencyCode }, shouldEndRequest) {
+export function* fetchSecondaryCurrency({ currencyCode }, shouldEndRequest) {
   yield put(requestStart());
   try {
     const url = makeHistoryRequestUrl(moment().subtract(1, 'w'), moment(), currencyCode);
     const result = yield call(axios.get, url);
-    const parsedData = yield getParsedData(result.data);
+    const parsedData = yield call(getParsedData, result.data);
 
     if (!parsedData.ValCurs.Record) {
       alert('Отсутствуют данные для выбранной валюты');
@@ -70,17 +70,17 @@ function* fetchSecondaryCurrency({ currencyCode }, shouldEndRequest) {
   }
 }
 
-function* initializeApp() {
+export function* initializeApp() {
   try {
     const currencyCodesXML = yield call(axios.get, 'https://crossorigin.me/https://www.cbr.ru/scripts/XML_val.asp?d=0');
-    const parsedCurrencyCodes = yield getParsedData(currencyCodesXML.data);
+    const parsedCurrencyCodes = yield call(getParsedData, currencyCodesXML.data);
     const currencyCodes = parsedCurrencyCodes.Valuta.Item;
     const shouldEndRequest = false;
 
     yield put(setCurrencyCodes(currencyCodes));
     yield all([
-      fetchMainCurrency({ currencyCode: currencyCodes[1].$.ID }, shouldEndRequest),
-      fetchSecondaryCurrency({ currencyCode: currencyCodes[0].$.ID }, shouldEndRequest),
+      call(fetchMainCurrency, { currencyCode: currencyCodes[1].$.ID }, shouldEndRequest),
+      call(fetchSecondaryCurrency, { currencyCode: currencyCodes[0].$.ID }, shouldEndRequest),
     ]);
     yield put(requestEnd());
   } catch (err) {
@@ -89,14 +89,14 @@ function* initializeApp() {
   }
 }
 
-function* fetchCurrency(action) {
+export function* fetchCurrency(action) {
   const shouldEndRequest = true;
   yield action.isMain
-    ? fetchMainCurrency(action, shouldEndRequest)
-    : fetchSecondaryCurrency(action, shouldEndRequest);
+    ? call(fetchMainCurrency, action, shouldEndRequest)
+    : call(fetchSecondaryCurrency, action, shouldEndRequest);
 }
 
-function* watchCurrencyFetch() {
+export function* watchCurrencyFetch() {
   yield takeLatest(FETCH_CURRENCY, fetchCurrency);
 }
 

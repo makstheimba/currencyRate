@@ -11,9 +11,10 @@ export default class CurrencyHighChart extends React.PureComponent {
       nominal: PropTypes.number.isRequired,
       value: PropTypes.number.isRequired,
     })).isRequired,
+    currencyName: PropTypes.string.isRequired,
   }
   render() {
-    const { history } = this.props;
+    const { history, currencyName } = this.props;
     const config = {
       rangeSelector: {
         selected: 1,
@@ -22,7 +23,7 @@ export default class CurrencyHighChart extends React.PureComponent {
         height: 250,
       },
       series: [{
-        name: 'currency', // change later
+        name: currencyName,
         data: history.map(entry => [moment(entry.date, 'DD.MM.YYYY').unix() * 1000, entry.value]),
       }],
     };
