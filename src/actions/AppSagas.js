@@ -6,7 +6,12 @@ import { FETCH_CURRENCY } from 'constants/AppConstants';
 import { all, put, call, takeLatest } from 'redux-saga/effects';
 import { normalizeCurrencyRecord, makeHistoryRequestUrl } from 'selectors/AppHelpers';
 import {
-    setCurrencyCodes, setCurrencyHistory, setDate, setCurrency, requestStart, requestEnd,
+    setDate,
+    requestEnd,
+    setCurrency,
+    requestStart,
+    setCurrencyCodes,
+    setCurrencyHistory,
 } from 'actions/AppActions';
 
 export const getParsedData = data => new Promise((resolve) => {
@@ -38,7 +43,7 @@ export function* fetchMainCurrency({ currencyCode }, shouldEndRequest) {
     }
   } catch (err) {
     console.log(err);
-    alert('Something went wrong, probably CORS :(');
+    alert('Something went wrong');
   }
   if (shouldEndRequest) {
     yield put(requestEnd());
@@ -63,7 +68,7 @@ export function* fetchSecondaryCurrency({ currencyCode }, shouldEndRequest) {
     }
   } catch (err) {
     console.log(err);
-    alert('Something went wrong, probably CORS :(');
+    alert('Something went wrong');
   }
   if (shouldEndRequest) {
     yield put(requestEnd());
@@ -72,7 +77,7 @@ export function* fetchSecondaryCurrency({ currencyCode }, shouldEndRequest) {
 
 export function* initializeApp() {
   try {
-    const currencyCodesXML = yield call(axios.get, 'https://crossorigin.me/https://www.cbr.ru/scripts/XML_val.asp?d=0');
+    const currencyCodesXML = yield call(axios.get, 'https://cbr-gate.herokuapp.com/XML_val.asp?d=0');
     const parsedCurrencyCodes = yield call(getParsedData, currencyCodesXML.data);
     const currencyCodes = parsedCurrencyCodes.Valuta.Item;
     const shouldEndRequest = false;
@@ -85,7 +90,7 @@ export function* initializeApp() {
     yield put(requestEnd());
   } catch (err) {
     console.log(err);
-    alert('Something went wrong, probably CORS :(');
+    alert('Something went wrong');
   }
 }
 

@@ -40,8 +40,8 @@ export default class CurrencyHistory extends React.PureComponent {
               </span>
               <span
                 className={classnames({
-                  [styles.containerRowItem__red]: entry.diff.startsWith('-'),
-                  [styles.containerRowItem__green]: !entry.diff.startsWith('-'),
+                  [styles.containerRowItemRed]: entry.diff.startsWith('-'),
+                  [styles.containerRowItemGreen]: !entry.diff.startsWith('-'),
                 })}
               >
                 {entry.diff.startsWith('-') ? entry.diff : `+${entry.diff}`}
