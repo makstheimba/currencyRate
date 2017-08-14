@@ -17,6 +17,22 @@ export default class CurrencyHighChart extends React.PureComponent {
     const { history, currencyName } = this.props;
     const config = {
       rangeSelector: {
+        buttons: [{
+          count: 1,
+          type: 'month',
+          text: '1м',
+        }, {
+          count: 3,
+          type: 'month',
+          text: '3м',
+        }, {
+          count: 6,
+          type: 'month',
+          text: '6м',
+        }, {
+          type: 'all',
+          text: 'Все',
+        }],
         selected: 1,
       },
       chart: {
@@ -26,6 +42,9 @@ export default class CurrencyHighChart extends React.PureComponent {
         name: currencyName,
         data: history.map(entry => [moment(entry.date, 'DD.MM.YYYY').unix() * 1000, entry.value]),
       }],
+      credits: {
+        enabled: false,
+      },
     };
 
     return (
