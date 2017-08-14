@@ -11,9 +11,15 @@ import createSagaMiddleware from 'redux-saga';
 import { createStore, applyMiddleware } from 'redux';
 
 const sagaMiddleware = createSagaMiddleware();
+const middlewares = [sagaMiddleware];
+
+if (process.env.NODE_ENV !== 'production') {
+  middlewares.push(logger);
+}
+
 const store = createStore(
   AppReducer,
-  applyMiddleware(sagaMiddleware, logger),
+  applyMiddleware(...middlewares),
 );
 
 HighStock.Highcharts.setOptions({
